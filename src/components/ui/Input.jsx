@@ -15,12 +15,12 @@ export default function Input({
   return (
     <div className="mb-4">
       {label && (
-        <label htmlFor={name} className="block mb-1 font-semibold">
+        <label htmlFor={name} className="text-base lowercase font-regular text-dark">
           {label}
         </label>
       )}
       <div className="relative">
-        {icon && <span className="absolute left-3 top-1/2 -translate-y-1/2">{icon}</span>}
+        {icon && <span className="absolute -translate-y-1/2 left-3 top-1/2">{icon}</span>}
         <input
           id={name}
           name={name}
@@ -34,7 +34,7 @@ export default function Input({
           } rounded-md py-2 px-3 ${icon ? 'pl-10' : ''} focus:border-primary focus:outline-none`}
         />
       </div>
-      {error && <p className="mt-1 text-red-600 text-sm">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   );
 }
