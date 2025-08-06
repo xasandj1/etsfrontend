@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import url("./font.css");
+
+@theme {
+  --color-primary: #007855;
+  --color-secondary: #ff686b;
+  --color-third: #33b1ff;
+  --color-dark: #323232;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --text-20: 1.25rem;
+  --text-23: 1.4375rem;
+  --text-24: 1.5rem;
+  --text-23--line-height: 1.6rem;
+  --text-24--line-height: 1.75rem;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  scroll-behavior: smooth;
+  background: url("../assets/img/backgroundBanner.png") no-repeat center/cover;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1420px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
