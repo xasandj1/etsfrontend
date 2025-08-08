@@ -1,33 +1,35 @@
+// app/api/eimzo/callback/route.js
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
 import { sessionOptions } from '@/lib/session';
 
+export const runtime = 'nodejs';
+
 export async function POST(request) {
   const { pkcs7 } = await request.json();
 
-  const headers = {
-    'Content-Type': 'text/plain',                  // body — PKCS7 Base64 matn
-    'X-Real-IP': request.headers.get('x-forwarded-for') ?? '127.0.0.1',
-    'Host': request.headers.get('host') ?? 'localhost',
-  };
+  if (!pkcs7) {
+    return NextResponse.json({ error: 'pkcs7 yo‘q' }, { status: 400 });
+  }
 
-  const verRes = await fetch(`${process.env.EIMZO_URL}/frontend/challenge`, {
+  // Serverga yuborish
+  const res = await fetch(`${process.env.EIMZO_URL}/frontend/challenge`, {
     method: 'POST',
-    headers,
+    headers: { 'Content-Type': 'text/plain' },
     body: pkcs7,
   });
 
-  let result = null;
-  try { result = await verRes.json(); } catch (_) {}
+  const result = await res.json();
 
-  if (!verRes.ok || !result || result.status !== 1) {
-    return NextResponse.json({ error: 'Imzo invalid' }, { status: 401 });
+  if (result.status !== 1) {
+    return NextResponse.json({ error: 'Imzo xato' }, { status: 401 });
   }
 
+  // Sessiya
   const session = await getIronSession(cookies(), sessionOptions);
-  session.user = result.subjectCertificateInfo || result.user || null;
+  session.user = result.user || result.subjectCertificateInfo || null;
   await session.save();
 
-  return NextResponse.redirect(new URL('/dashboard', request.url));
+  return NextResponse.redirect(new URL('/dashboard', request.url), { status: 303 });
 }
