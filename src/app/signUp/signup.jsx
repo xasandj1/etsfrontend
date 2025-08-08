@@ -13,14 +13,14 @@ export default function SignUpPage() {
     juridic: "uz",
   });
 
-  const [showForm, setShowForm] = useState(false); // faqat tugma bosilgandan keyin forma chiqadi
+  const [showForm, setShowForm] = useState(false); 
 
   function handleJuridicChange(value) {
     setForm((prev) => ({
       ...prev,
       juridic: value,
     }));
-    setShowForm(false); // forma tanlov o'zgarsa yashirilsin
+    setShowForm(false); 
   }
 
   return (
